@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
+const newsController = require('../controllers').News;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+console.log(newsController.getById);
+
+router.get('/users', newsController.list);
+router.get('/users/:id', newsController.getById);
+router.post('/users', newsController.add);
+router.put('/users/:id', newsController.update);
+router.delete('/users/:id', newsController.delete);
 
 module.exports = router;
