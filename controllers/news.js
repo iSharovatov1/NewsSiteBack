@@ -4,23 +4,20 @@ module.exports = {
   list(req, res) {
     return News
       .findAll({
-        order:[
-          "id",
+        order: [
+          ['createdAt', 'DESC'],
         ],
       })
       .then((news) => {
-        console.log('+');
-        console.log(req.query, req.params, req.body);
+        console.log(111);
         res.status(200).send(news)
       })
-      .catch((error) => { res.status(400).send(error); });
+      .catch((error) => { res.status(400).send(error); console.log(error);});
   },
 
   getById(req, res) {
-    console.log(req);
-    
     return News
-      .findByPk(req.query.id, {
+      .findByPk(req.params.id, {
       })
       .then((news) => {
         if (!news) {
@@ -30,17 +27,17 @@ module.exports = {
         }
         return res.status(200).send(news);
       })
-      .catch((error) => res.status(400).send(error));
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
   },
 
   add(req, res) {
-    console.log('add', req);
     return News
       .create({
         title: req.body.title,
         text: req.body.text,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       })
       .then((news) => res.status(201).send(news))
       .catch((error) => res.status(400).send(error));
@@ -48,7 +45,8 @@ module.exports = {
 
   update(req, res) {
     return News
-      .findByPk(req.params.id, {})
+      .findByPk(req.params.id, {
+      })
       .then(news => {
         if (!news) {
           return res.status(404).send({
@@ -70,7 +68,6 @@ module.exports = {
     return News
       .findByPk(req.params.id)
       .then(news => {
-        console.log(news);
         if (!news) {
           return res.status(400).send({
             message: 'News Not Found',

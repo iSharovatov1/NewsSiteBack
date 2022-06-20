@@ -1,13 +1,17 @@
 var express = require('express');
 var router = express.Router();
-const newsController = require('../controllers').News;
 
-console.log(newsController.getById);
+const newsController = require('../controllers').news;
 
-router.get('/users', newsController.list);
-router.get('/users/:id', newsController.getById);
-router.post('/users', newsController.add);
-router.put('/users/:id', newsController.update);
-router.delete('/users/:id', newsController.delete);
+router.get('/api/news', newsController.list);
+router.get('/api/news/:id', newsController.getById);
+router.post('/api/news', newsController.add);
+router.put('/api/news/:id', newsController.update);
+router.delete('/api/news/:id', newsController.delete);
+
+/* GET users listing. */
+// router.get('/', function(req, res, next) {
+//   res.send('respond with a resource');
+// });
 
 module.exports = router;
