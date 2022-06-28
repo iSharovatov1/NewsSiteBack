@@ -1,17 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const passport = require('../config/passport')
 
-const newsController = require('../controllers').news;
+const userController = require('../controllers').users;
 
-router.get('/api/news', newsController.list);
-router.get('/api/news/:id', newsController.getById);
-router.post('/api/news', newsController.add);
-router.put('/api/news/:id', newsController.update);
-router.delete('/api/news/:id', newsController.delete);
-
-/* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+router.post('/signup', userController.signup);
+router.post('/signin', userController.signin);
 
 module.exports = router;
