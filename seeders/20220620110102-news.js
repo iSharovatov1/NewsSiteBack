@@ -1,16 +1,13 @@
-'use strict';
-
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('News', [{
-      title: 'John',
-      text: 'Doe',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }]);
-  },
+  up: (queryInterface) => queryInterface.bulkInsert('News', [{
+    title: 'John',
+    text: 'Doe',
+    user_id: 1,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }]),
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface) {
     return queryInterface.bulkDelete('News', null, {});
-  }
+  },
 };

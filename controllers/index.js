@@ -1,7 +1,9 @@
 const news = require('./news');
-const users = require('./users');
+const auth = require('./auth');
+const user = require('./user');
 
 module.exports = {
   news,
-  users,
+  auth,
+  user,
 };
