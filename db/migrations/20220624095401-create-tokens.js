@@ -8,9 +8,11 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       token: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
-      user_id: {
+      userId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       createdAt: {
