@@ -5,19 +5,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Tokens.hasOne(models.Users, {
         foreignKey: 'id',
-        as: 'Users',
+        as: 'user',
       });
     }
   }
   Tokens.init({
-    token: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    token: DataTypes.STRING,
+    userId: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Tokens',

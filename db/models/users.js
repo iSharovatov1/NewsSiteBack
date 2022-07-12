@@ -5,35 +5,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Users.hasMany(models.Tokens, {
         foreignKey: 'userId',
-        as: 'Tokens',
+        as: 'tokens',
       });
       Users.hasMany(models.News, {
         foreignKey: 'userid',
-        as: 'News',
+        as: 'news',
       });
     }
   }
   Users.init({
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    avatar: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    avatar: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Users',

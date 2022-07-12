@@ -5,23 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       News.hasOne(models.Users, {
         foreignKey: 'id',
-        as: 'Users',
+        as: 'user',
       });
     }
   }
   News.init({
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    text: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    title: DataTypes.STRING,
+    text: DataTypes.STRING,
+    tags: DataTypes.STRING,
+    img: DataTypes.STRING,
+    userId: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'News',

@@ -1,8 +1,10 @@
 module.exports = {
   up: (queryInterface) => queryInterface.bulkInsert('News', [{
-    title: 'John',
-    text: 'Doe',
-    user_id: 1,
+    title: 'Food',
+    text: 'Food',
+    tags: 'food',
+    img: '',
+    userId: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
   }]),

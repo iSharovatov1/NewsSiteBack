@@ -15,6 +15,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      tags: {
+        type: Sequelize.STRING,
+      },
+      img: {
+        type: Sequelize.STRING,
+      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
