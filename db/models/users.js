@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'tokens',
       });
       Users.hasMany(models.News, {
-        foreignKey: 'userid',
+        foreignKey: 'userId',
         as: 'news',
       });
     }

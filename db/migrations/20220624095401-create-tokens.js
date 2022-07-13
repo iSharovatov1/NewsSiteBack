@@ -9,6 +9,7 @@ module.exports = {
       },
       token: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       userId: {
