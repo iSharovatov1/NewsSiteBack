@@ -1,3 +1,3 @@
-const news = require('./news');
+const newsController = require('./news/getAllNews');
 
-module.exports = { news };
+module.exports = { newsController };

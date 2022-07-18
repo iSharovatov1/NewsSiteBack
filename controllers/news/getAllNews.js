@@ -1,6 +1,4 @@
-require('dotenv').config();
-
-const { News } = require('../db/models');
+const { News } = require('../../db/models');
 
 async function getAllNews(req, res) {
   try {
