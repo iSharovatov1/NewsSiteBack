@@ -1,10 +1,10 @@
-# [MMS-XXX](https://marketmuse.atlassian.net/browse/MMS-XXX)
-> DB initialization (server)
+# [NewsSiteBack](https://github.com/iSharovatov1/NewsSiteBack)
+> Implementation of receiving news from the database (server)
 ### Code Details
-* added db, env
+* added endpoint getAllNews
 ### Screenshots
 Add screenshots for visible changes. Remove section otherwise.
 ### Testing Steps
 Add steps to test.
 ### Feature tag selection
-Has a `data-mms-` tag been added? Has it been added [to the tracker](https://coda.io/d/Product-Docs_d5LRK97GeW3/Tracked-Features_suQHl#Feature-Track-List_tu-BJ/r70)?
+Has a `Implementation of receiving news from the database (server)` tag been added? Has it been added [to the tracker](https://trello.com/b/EICN697S/%D1%88%D0%B0%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D0%BE%D0%B2%D0%B8%D0%B3%D0%BE%D1%80%D1%8C%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%BD%D0%BE%D0%B9%D1%81%D0%B0%D0%B9%D1%82)?
