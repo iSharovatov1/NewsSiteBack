@@ -1,9 +1,10 @@
 const { Users } = require('../../db/models');
 
 async function getUserById(req, res) {
+  const { params: { id } } = req;
   try {
     const user = await Users.findOne({
-      where: { id: req.params.id },
+      where: { id },
     });
     if (user === null) return res.status(404).send('User not found');
     return res.status(200).send(user);

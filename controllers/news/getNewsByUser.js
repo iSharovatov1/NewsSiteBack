@@ -1,7 +1,7 @@
 const { News } = require('../../db/models');
 
 async function getNewsByUser(req, res) {
-  const { userId } = req.params;
+  const { params: { userId } } = req;
   try {
     const news = await News.findAll({
       where: { userId },
