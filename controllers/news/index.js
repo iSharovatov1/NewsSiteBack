@@ -1,3 +1,4 @@
 const { getAllNews } = require('./getAllNews');
+const { getNewsByUser } = require('./getNewsByUser');
 
-module.exports = { getAllNews };
+module.exports = { getAllNews, getNewsByUser };

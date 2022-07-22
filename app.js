@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 
 const newsRouter = require('./routes/news');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/api/news', newsRouter);
+app.use('/api/user', userRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
