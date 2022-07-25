@@ -5,6 +5,7 @@ const path = require('path');
 
 const newsRouter = require('./routes/news');
 const userRouter = require('./routes/user');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use('/api/news', newsRouter);
 app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
