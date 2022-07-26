@@ -1,4 +1,4 @@
-const JwtStrategy = require('passport-jwt').Strategy;
+const { Strategy } = require('passport-jwt');
 const { ExtractJwt } = require('passport-jwt');
 require('dotenv').config();
 
@@ -10,7 +10,7 @@ opts.secretOrKey = process.env.secretKey;
 
 module.exports = (passport) => {
   passport.use(
-    new JwtStrategy(opts, async (payload, done) => {
+    new Strategy(opts, async (payload, done) => {
       try {
         const user = await Users.findByPk(payload.id, {});
         if (user) {

@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const cors = require('cors');
+const passport = require('passport');
 const path = require('path');
 
 const newsRouter = require('./routes/news');
@@ -11,6 +12,9 @@ const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(passport.initialize());
+require('./middleware/passport')(passport);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
