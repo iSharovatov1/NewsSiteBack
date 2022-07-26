@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
-const cron = require('node-cron');
 require('dotenv').config();
 
 const { Users, Tokens } = require('../../db/models');
@@ -23,13 +22,9 @@ async function signin(req, res) {
     if (isCompare) {
       const token = jwt.sign(JSON.parse(JSON.stringify(user)), key, { expiresIn: 86400 * 30 });
       const refresh = randtoken.uid(255);
-      const newToken = await Tokens.create({
+      await Tokens.create({
         userId: user.id,
         token: refresh,
-      });
-
-      cron.schedule('59 23 * * *', () => {
-        Tokens.destroy({ where: { id: newToken.id } });
       });
 
       res.cookie('refresh_token', refresh, {

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const { Users, Tokens } = require('../../db/models');
