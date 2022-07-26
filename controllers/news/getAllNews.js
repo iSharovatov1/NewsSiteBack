@@ -6,6 +6,7 @@ async function getAllNews(req, res) {
       order: [
         ['createdAt', 'DESC'],
       ],
+      include: 'user',
     });
     return res.status(200).send(news);
   } catch (error) {
