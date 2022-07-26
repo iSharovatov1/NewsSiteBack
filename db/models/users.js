@@ -1,4 +1,5 @@
 const { Model } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
@@ -23,5 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Users',
   });
+  Users.prototype.comparePassword = async function (password) {
+    const isCompare = await bcrypt.compare(password, this.password);
+    return isCompare;
+  };
   return Users;
 };

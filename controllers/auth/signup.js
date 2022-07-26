@@ -9,19 +9,21 @@ const key = process.env.secretKey;
 
 async function signup(req, res) {
   const {
-    firstName,
-    lastName,
-    avatar,
-    email,
-    password,
-  } = req.body;
-  if (!email || !password) {
-    return res.status(400).send({ msg: 'Please pass email and password.' });
+    body: {
+      firstName,
+      lastName,
+      avatar,
+      email,
+      password,
+    },
+  } = req;
+  if (email === '' || password === '' || firstName === '' || lastName === '') {
+    return res.status(400).send({ msg: 'Missed data.' });
   }
+  const oldUser = await Users.findOne({ where: { email } });
+  if (oldUser) res.status(409).send('user already exists');
+  const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
   try {
-    const oldUser = await Users.findAll({ where: { email } });
-    if (oldUser.length) res.status(409).send('user already exists');
-    const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
     const user = await Users.create({
       firstName,
       lastName,
@@ -35,7 +37,7 @@ async function signup(req, res) {
       userId: user.id,
       token: refresh,
     });
-    return res.status(201).cookie('token', refresh).send({ token });
+    return res.status(201).cookie('token', refresh).send({ token, user });
   } catch (error) {
     return res.status(400).send(error);
   }
