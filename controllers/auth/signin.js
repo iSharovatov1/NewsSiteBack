@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
-require('dotenv').config();
 
 const { Users, Tokens } = require('../../db/models');
 
@@ -27,7 +26,7 @@ async function signin(req, res) {
         token: refresh,
       });
 
-      res.cookie('refresh_token', refresh, {
+      res.cookie('refreshToken', refresh, {
         secure: false,
         maxAge: 60 * 60 * 1000,
         httpOnly: true,

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
 const bcrypt = require('bcrypt');
-require('dotenv').config();
 
 const { Users, Tokens } = require('../../db/models');
 
@@ -17,10 +16,10 @@ async function signup(req, res) {
       password,
     },
   } = req;
-  if (email === '' || password === '' || firstName === '' || lastName === '') {
+  if (email.trim() === '' || password.trim() === '' || firstName.trim() === '' || lastName.trim() === '') {
     return res.status(400).send({ msg: 'Missed data.' });
   }
-  const oldUser = await Users.findOne({ where: { email } });
+  const oldUser = await Users.findOne({ where: { email: email.trim() } });
   if (oldUser) res.status(409).send('user already exists');
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
   try {
@@ -36,6 +35,11 @@ async function signup(req, res) {
     await Tokens.create({
       userId: user.id,
       token: refresh,
+    });
+    res.cookie('refreshToken', refresh, {
+      secure: false,
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true,
     });
     return res.status(201).cookie('token', refresh).send({ token, user });
   } catch (error) {

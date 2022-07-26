@@ -1,10 +1,11 @@
 const { Tokens } = require('../../db/models');
 
 async function logout(req, res) {
-  const token = req.headers.authorization.split(' ')[1];
+  const { cookies: { refreshToken } } = req;
   try {
-    await Tokens.destroy({ where: { token } });
-    return res.json({ success: true, token });
+    res.clearCookie('refreshToken');
+    await Tokens.destroy({ where: { token: refreshToken } });
+    return res.status(200).json({ success: true, refreshToken });
   } catch (error) {
     return res.json({ success: false, error });
   }

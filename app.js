@@ -3,10 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const newsRouter = require('./routes/news');
 const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+
+const key = process.env.secretKey;
 
 const app = express();
 
@@ -17,6 +21,7 @@ app.use(passport.initialize());
 require('./middleware/passport')(passport);
 
 app.use(express.json());
+app.use(cookieParser(key));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
