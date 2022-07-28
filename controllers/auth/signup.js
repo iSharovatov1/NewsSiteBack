@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
-const bcrypt = require('bcrypt');
 
 const { Users, Tokens } = require('../../db/models');
 
@@ -16,19 +15,27 @@ async function signup(req, res) {
       password,
     },
   } = req;
-  if (email.trim() === '' || password.trim() === '' || firstName.trim() === '' || lastName.trim() === '') {
+  const regexp = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  if (email.trim() === ''
+  || password === ''
+  || firstName.trim() === ''
+  || lastName.trim() === '') {
     return res.status(400).send({ msg: 'Missed data.' });
   }
   const oldUser = await Users.findOne({ where: { email: email.trim() } });
-  if (oldUser) res.status(409).send('user already exists');
-  const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+  if (oldUser) {
+    return res.status(409).send('user already exists');
+  }
+  if (!regexp.test(email)) {
+    return res.status(400).send({ msg: 'Invalid email.' });
+  }
   try {
     const user = await Users.create({
-      firstName,
-      lastName,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
       avatar,
-      email,
-      password: hashPassword,
+      email: email.trim(),
+      password,
     });
     const token = jwt.sign(JSON.parse(JSON.stringify(user)), key, { expiresIn: 86400 * 30 });
     const refresh = randtoken.uid(255);
@@ -41,7 +48,7 @@ async function signup(req, res) {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
     });
-    return res.status(201).cookie('token', refresh).send({ token, user });
+    return res.status(201).send({ token, user });
   } catch (error) {
     return res.status(400).send(error);
   }

@@ -5,7 +5,7 @@ async function logout(req, res) {
   try {
     res.clearCookie('refreshToken');
     await Tokens.destroy({ where: { token: refreshToken } });
-    return res.status(200).json({ success: true, refreshToken });
+    return res.status(200).json({ success: true });
   } catch (error) {
     return res.json({ success: false, error });
   }

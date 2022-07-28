@@ -28,5 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     const isCompare = await bcrypt.compare(password, this.password);
     return isCompare;
   };
+  Users.addHook(
+    'beforeCreate',
+    (user) => {
+      user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
+    },
+  );
   return Users;
 };
