@@ -37,7 +37,7 @@ async function signup(req, res) {
       email: email.trim(),
       password,
     });
-    const token = jwt.sign(JSON.parse(JSON.stringify(user)), key, { expiresIn: 86400 * 30 });
+    const token = jwt.sign({ id: user.id }, key, { expiresIn: 86400 });
     const refresh = randtoken.uid(255);
     await Tokens.create({
       userId: user.id,
@@ -45,7 +45,7 @@ async function signup(req, res) {
     });
     res.cookie('refreshToken', refresh, {
       secure: false,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
     return res.status(201).send({ token, user });
