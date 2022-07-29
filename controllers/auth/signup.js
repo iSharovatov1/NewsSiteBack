@@ -1,7 +1,5 @@
-const randtoken = require('rand-token');
-
-const { Users, Tokens } = require('../../db/models');
-const { createToken } = require('./createToken');
+const { Users } = require('../../db/models');
+const { createTokenWithAttachCookies } = require('./createTokenWithAttachCookies');
 
 async function signup(req, res) {
   const {
@@ -38,17 +36,7 @@ async function signup(req, res) {
   }
   try {
     const user = await Users.create(payload);
-    const token = createToken(user.id);
-    const refresh = randtoken.uid(255);
-    await Tokens.create({
-      userId: user.id,
-      token: refresh,
-    });
-    res.cookie('refreshToken', refresh, {
-      secure: false,
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-    });
+    const token = await createTokenWithAttachCookies(user.id, res);
     return res.status(201).send({ token, user });
   } catch (error) {
     return res.status(400).send(error);
