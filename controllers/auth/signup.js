@@ -1,9 +1,7 @@
-const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
 
 const { Users, Tokens } = require('../../db/models');
-
-const key = process.env.secretKey;
+const { createToken } = require('./createToken');
 
 async function signup(req, res) {
   const {
@@ -15,29 +13,32 @@ async function signup(req, res) {
       password,
     },
   } = req;
+  const payload = {
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    avatar,
+    email: email.trim(),
+    password,
+  };
   const regexp = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  if (email.trim() === ''
-  || password === ''
-  || firstName.trim() === ''
-  || lastName.trim() === '') {
+  if (
+    payload.email === ''
+    || password === ''
+    || payload.firstName === ''
+    || payload.lastName === ''
+  ) {
     return res.status(400).send({ msg: 'Missed data.' });
   }
   const oldUser = await Users.findOne({ where: { email: email.trim() } });
   if (oldUser) {
     return res.status(409).send('user already exists');
   }
-  if (!regexp.test(email)) {
+  if (!regexp.test(payload.email)) {
     return res.status(400).send({ msg: 'Invalid email.' });
   }
   try {
-    const user = await Users.create({
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      avatar,
-      email: email.trim(),
-      password,
-    });
-    const token = jwt.sign({ id: user.id }, key, { expiresIn: 86400 });
+    const user = await Users.create(payload);
+    const token = createToken(user.id);
     const refresh = randtoken.uid(255);
     await Tokens.create({
       userId: user.id,

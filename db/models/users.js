@@ -24,9 +24,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Users',
   });
-  Users.prototype.comparePassword = async function (password) {
-    const isCompare = await bcrypt.compare(password, this.password);
-    return isCompare;
+  Users.prototype.comparePassword = function (password) {
+    if (password) {
+      return bcrypt.compareSync(password, this.password);
+    }
+    console.error(new Error('Password is required'));
+    throw new Error('Password is required');
   };
   Users.addHook(
     'beforeCreate',

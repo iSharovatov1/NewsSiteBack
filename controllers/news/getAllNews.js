@@ -1,4 +1,4 @@
-const { News } = require('../../db/models');
+const { News, Users } = require('../../db/models');
 
 async function getAllNews(req, res) {
   try {
@@ -6,7 +6,11 @@ async function getAllNews(req, res) {
       order: [
         ['createdAt', 'DESC'],
       ],
-      include: 'user',
+      include: {
+        model: Users,
+        as: 'user',
+        attributes: ['id', 'email'],
+      },
     });
     return res.status(200).send(news);
   } catch (error) {

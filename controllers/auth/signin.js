@@ -1,25 +1,23 @@
-const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
 
 const { Users, Tokens } = require('../../db/models');
-
-const key = process.env.secretKey;
+const { createToken } = require('./createToken');
 
 async function signin(req, res) {
   const { body: { email, password } } = req;
-  if (email === '' || password === '') {
+  if (email.trim() === '' || password === '') {
     return res.status(400).send({ msg: 'Missed data.' });
   }
   try {
-    const user = await Users.findOne({ where: { email } });
+    const user = await Users.findOne({ where: { email: email.trim() } });
     if (!user) {
       return res.status(401).send({
         message: 'Authentication failed. User not found.',
       });
     }
-    const isCompare = await user.comparePassword(password);
+    const isCompare = user.comparePassword();
     if (isCompare) {
-      const token = jwt.sign({ id: user.id }, key, { expiresIn: 86400 });
+      const token = createToken(user.id);
       const refresh = randtoken.uid(255);
       await Tokens.create({
         userId: user.id,
