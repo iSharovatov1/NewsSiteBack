@@ -6,7 +6,6 @@ async function signup(req, res) {
     body: {
       firstName,
       lastName,
-      avatar,
       email,
       password,
     },
@@ -14,9 +13,9 @@ async function signup(req, res) {
   const payload = {
     firstName: firstName.trim(),
     lastName: lastName.trim(),
-    avatar,
     email: email.trim(),
     password,
+    avatar: '',
   };
   const regexp = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   if (
