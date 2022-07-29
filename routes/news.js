@@ -1,10 +1,11 @@
 const express = require('express');
-
-const router = express.Router();
+const passport = require('passport');
 
 const { newsController } = require('../controllers');
 
+const router = express.Router();
+
 router.get('/', newsController.getAllNews);
-router.get('/user/:userId', newsController.getNewsByUser);
+router.get('/user/:userId', passport.authenticate('jwt', { session: false }), newsController.getNewsByUser);
 
 module.exports = router;
